@@ -22,6 +22,8 @@ function pickFams(u) {
   if (/주간|week|todo|할일/i.test(route)) return { serif: WEEKLY, sans: WEEKLY };
   if (/나이|age/i.test(route)) return { serif: WEEKLY, sans: WEEKLY };   // 알약=주간과 동일 필체
   if (/일기|diary|편지|letter/i.test(route)) {
+    // 유저(ⓤ) 시점 일기·편지 = 그리운 프롬솔(주간과 동일 손글씨)
+    if (q.get("c") === "0" || q.get("uwriter") === "1") return { serif: WEEKLY, sans: WEEKLY };
     const isBel = q.get("c") === "2" || /벨|bel/i.test(q.get("w") || "");
     const st = (q.get("s") || "adu").toLowerCase().slice(0, 3);
     return { serif: (STAGE[isBel ? "bel" : "cas"] || {})[st] || UI, sans: UI };
