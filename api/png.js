@@ -9,8 +9,13 @@ const sharp = require("sharp");
 /* fc-list 실측 패밀리명 */
 const UI = "Pretendard";
 const STAGE = {
-  cas: { bab: "Yoon Childfundkorea MinGuk", kid: "Yoon Childfundkorea MinGuk", pre: "Yoon Childfundkorea MinGuk",
-         tee: "Griun On handwriting", yth: "Ownglyph wiseelist", adu: "SimKyungha" },
+  /* 카시엘: 전 단계 나눔손글씨 바른정신체.
+   * 단계별로 나누고 싶으면 아래 주석의 옛 배정을 되살리면 된다.
+   *   bab·kid·pre "Yoon Childfundkorea MinGuk" / tee "Griun On handwriting"
+   *   yth "Ownglyph wiseelist" / adu "SimKyungha"
+   * 그때는 워커 awd_worker.js 의 HAND_W["1"] 값도 단계별로 되돌려야 한다. */
+  cas: { bab: "Nanum BaReunJeongSin", kid: "Nanum BaReunJeongSin", pre: "Nanum BaReunJeongSin",
+         tee: "Nanum BaReunJeongSin", yth: "Nanum BaReunJeongSin", adu: "Nanum BaReunJeongSin" },
   bel: { bab: "Yoon Childfundkorea ManSeh", kid: "Yoon Childfundkorea ManSeh", pre: "Yoon Childfundkorea ManSeh",
          tee: "Chilgok_ljh", yth: "Hakgyoansim Kkokkoma", adu: "Nanum SonPyeonJiCe" },
 };
