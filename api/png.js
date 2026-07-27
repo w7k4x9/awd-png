@@ -37,10 +37,24 @@ function pickFams(u) {
 }
 
 /* 세리프 계열 스택(Batang·Myungjo·serif)=본문 필체, 그 외=산세리프(UI) */
+/* 워커가 font-family에 직접 박아 보낸 필체 이름들. 이게 보이면 그대로 존중한다.
+ * 변환기가 URL의 s= 단계를 다시 해석하는 경로는 이름이 없을 때만 쓰는 예비책이다.
+ * (예전엔 재해석이 어긋나면 kid·pre 단계 필체가 통째로 프리텐다드로 떨어졌다) */
+const KNOWN = [
+  "Yoon Childfundkorea MinGuk", "Yoon Childfundkorea ManSeh",
+  "Griun On handwriting", "Ownglyph wiseelist", "SimKyungha",
+  "Nanum BaReunJeongSin", "Chilgok_ljh", "Hakgyoansim Kkokkoma",
+  "Nanum SonPyeonJiCe", "Griun Fromsol",
+];
+
 function retag(svg, fams) {
   /* 브라우저용 반응형 선언(style width:100%)은 래스터 크기 계산을 흐리므로 제거 */
   svg = svg.replace(/(<svg[^>]*?)\s+style="[^"]*"/, "$1");
-  const decide = (v) => (/batang|myungjo|(^|[^-])serif/i.test(v) && !/sans-serif/i.test(v) ? fams.serif : fams.sans);
+  const decide = (v) => {
+    const named = KNOWN.find((f) => v.indexOf(f) >= 0);
+    if (named) return named;                       // 워커 지정 필체 우선
+    return /batang|myungjo|(^|[^-])serif/i.test(v) && !/sans-serif/i.test(v) ? fams.serif : fams.sans;
+  };
   return svg
     .replace(/font-family\s*:\s*([^;}"<]+)/g, (m, v) => "font-family:'" + decide(v) + "'")
     .replace(/font-family\s*=\s*"([^"]*)"/g, (m, v) => 'font-family="' + decide(v).replace(/"/g, "") + '"');
